@@ -5,7 +5,7 @@ PYTHON ?= python
 
 pyver = $(shell $(PYTHON) -V 2>&1 | sed 's/^[^ ]* \([0-9]*\.[0-9]*\).*/\1/')
 
-SUBDIRS = sql doc
+SUBDIRS = sql
 
 # modules that use doctest for regtests
 DOCTESTMODS = skytools.quoting skytools.parsing skytools.timeutil \
@@ -51,10 +51,8 @@ SITEDIR = site-packages
 python-install: config.mak
 	$(PYTHON) setup_pkgloader.py install --prefix=$(prefix) --root=$(DESTDIR)/ $(BROKEN_PYTHON)
 	$(PYTHON) setup_skytools.py install --prefix=$(prefix) --root=$(DESTDIR)/ $(BROKEN_PYTHON)
-	$(MAKE) -C doc DESTDIR=$(DESTDIR) install
 
 realclean: distclean
-	$(MAKE) -C doc $@
 	$(MAKE) distclean
 
 distclean: sub-distclean
@@ -69,7 +67,7 @@ deb:
 	debuild -uc -us -b
 
 tgz: config.mak clean
-	$(MAKE) -C doc man
+	$(MAKE) -C  man
 	rm -f source.list
 	$(PYTHON) setup_skytools.py sdist -t source.cfg -m source.list
 
